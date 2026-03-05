@@ -1,0 +1,28 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<div class="form-box">
+
+<h2>Register</h2>
+
+<form method="POST">
+
+<input name="name" placeholder="Name">
+
+<input name="email" placeholder="Email">
+
+<select name="role">
+
+<option value="doctor">Doctor</option>
+<option value="patient">Patient</option>
+
+</select>
+
+<input name="phone" placeholder="Phone">
+
+<input type="password" name="password" placeholder="Password">
+
+<button type="submit">Register</button>
+
+</form>
+
+</div>

@@ -1,0 +1,29 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<h2>🧑 Patient Dashboard</h2>
+
+<p><b>Your Patient ID:</b> {{ patient.patient_id }}</p>
+
+<a href="/book" class="btn">Book Appointment</a>
+
+<h3>📄 Diagnosis Reports</h3>
+
+<table>
+
+<tr>
+<th>Doctor ID</th>
+<th>Report</th>
+</tr>
+
+{% for r in reports %}
+
+<tr>
+<td>{{ r.DoctorID }}</td>
+<td>{{ r.Report }}</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+<a href="/logout" class="logout">Logout</a>

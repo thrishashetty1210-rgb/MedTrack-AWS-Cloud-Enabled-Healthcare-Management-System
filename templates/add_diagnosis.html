@@ -1,0 +1,21 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<div class="form-box">
+
+<h2>Add Diagnosis</h2>
+
+<form method="POST">
+
+<input name="appointment" placeholder="Appointment ID">
+
+<input name="doctor" placeholder="Doctor ID">
+
+<input name="patient" placeholder="Patient ID">
+
+<textarea name="report" placeholder="Diagnosis Report"></textarea>
+
+<button type="submit">Submit</button>
+
+</form>
+
+</div>

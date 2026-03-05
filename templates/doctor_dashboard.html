@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Doctor Dashboard</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<h2>👨‍⚕️ Doctor Dashboard</h2>
+
+<table>
+
+<tr>
+<th>Patient ID</th>
+<th>Date</th>
+<th>Time</th>
+<th>Action</th>
+</tr>
+
+{% for a in appointments %}
+
+<tr>
+
+<td>{{ a.PatientID }}</td>
+<td>{{ a.Date }}</td>
+<td>{{ a.Time }}</td>
+
+<td>
+<a href="/diagnosis" class="btn">Add Diagnosis</a>
+</td>
+
+</tr>
+<td>
+<a href="/approve/{{ a._id }}" class="btn">Approve</a>
+<a href="/diagnosis/{{ a._id }}" class="btn">Add Diagnosis</a>
+</td>
+
+{% endfor %}
+
+</table>
+
+<br>
+
+<a href="/logout" class="logout">Logout</a>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Dashboard</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<h1>🏥 Admin Dashboard</h1>
+
+<!-- USERS TABLE -->
+
+<h2>👥 Registered Users</h2>
+
+<table>
+
+<tr>
+<th>Name</th>
+<th>Email</th>
+<th>Role</th>
+<th>Action</th>
+</tr>
+
+{% for u in users %}
+
+<tr>
+<td>{{ u.name }}</td>
+<td>{{ u.email }}</td>
+<td>{{ u.role }}</td>
+
+<td>
+<a href="/delete_user/{{ u._id }}" class="delete-btn">Delete</a>
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+
+<!-- APPOINTMENT TABLE -->
+
+<h2>📅 Appointments</h2>
+
+<table>
+
+<tr>
+<th>Patient ID</th>
+<th>Doctor ID</th>
+<th>Date</th>
+<th>Time</th>
+<th>Status</th>
+</tr>
+
+{% for a in appointments %}
+
+<tr>
+
+<td>{{ a.PatientID }}</td>
+<td>{{ a.DoctorID }}</td>
+<td>{{ a.Date }}</td>
+<td>{{ a.Time }}</td>
+<td>{{ a.Status }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+<br>
+
+<a href="/logout" class="logout">Logout</a>
+
+</div>
+
+</body>
+</html>
