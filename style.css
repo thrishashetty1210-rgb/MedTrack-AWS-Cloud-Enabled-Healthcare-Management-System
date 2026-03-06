@@ -1,0 +1,118 @@
+/* ================= GLOBAL ================= */
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f8fb;
+    margin:0;
+    padding:0;
+    text-align:center;
+}
+
+/* ================= CONTAINER ================= */
+
+.container{
+    width:350px;
+    margin:100px auto;
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 0 15px rgba(0,0,0,0.1);
+}
+
+/* ================= HEADINGS ================= */
+
+h1{
+    color:#2c7be5;
+}
+
+h2{
+    color:#2c7be5;
+}
+
+/* ================= INPUT FIELDS ================= */
+
+input, select, textarea{
+
+    width:85%;
+    padding:10px;
+    margin:8px 0;
+    border:1px solid #ccc;
+    border-radius:6px;
+    font-size:14px;
+}
+
+/* ================= BUTTON ================= */
+
+button{
+
+    background:#2c7be5;
+    color:white;
+    border:none;
+    padding:10px 20px;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:14px;
+}
+
+button:hover{
+
+    background:#1a5ec8;
+}
+
+/* ================= LINKS ================= */
+
+a{
+    text-decoration:none;
+    color:#2c7be5;
+    font-weight:bold;
+}
+
+/* ================= TABLE ================= */
+
+table{
+
+    margin:30px auto;
+    border-collapse:collapse;
+    width:70%;
+    background:white;
+}
+
+th{
+
+    background:#2c7be5;
+    color:white;
+    padding:10px;
+}
+
+td{
+
+    padding:10px;
+    border:1px solid #ddd;
+}
+
+/* ================= DASHBOARD ================= */
+
+.dashboard{
+
+    width:500px;
+    margin:80px auto;
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 0 15px rgba(0,0,0,0.1);
+}
+
+.dashboard a{
+
+    display:block;
+    margin:10px;
+    padding:10px;
+    background:#2c7be5;
+    color:white;
+    border-radius:6px;
+}
+
+.dashboard a:hover{
+
+    background:#1a5ec8;
+}

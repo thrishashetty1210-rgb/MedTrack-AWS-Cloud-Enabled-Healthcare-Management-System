@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Add Diagnosis</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<h2>Add Diagnosis</h2>
+
+<form method="post">
+
+<label>Patient ID</label><br>
+<input type="text" name="patient_id" required>
+
+<br><br>
+
+<label>Doctor ID</label><br>
+<input type="text" name="doctor_id" required>
+
+<br><br>
+
+<label>Diagnosis Report</label><br>
+<textarea name="report"></textarea>
+
+<br><br>
+
+<button type="submit">Submit</button>
+
+</form>
+
+<br>
+
+<a href="/doctor_dashboard">Back</a>
+
+</body>
+</html>
