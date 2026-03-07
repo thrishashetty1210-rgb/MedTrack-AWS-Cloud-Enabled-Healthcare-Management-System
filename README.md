@@ -59,23 +59,23 @@ MedTrack
 ├── config.py
 │
 ├── static
-│   └── style.css
+│ └── style.css
 │
-├── templates
-│   ├── index.html
-│   ├── login.html
-│   ├── register.html
-│   ├── admin_dashboard.html
-│   ├── doctor_dashboard.html
-│   ├── patient_dashboard.html
-│   ├── receptionist_dashboard.html
-│   ├── book_appointment.html
-│   ├── view_appointment.html
-│   ├── view_appointment_doctor.html
-│   ├── add_diagnosis.html
-│   ├── diagnosis_result.html
-│   ├── billing.html
-│   └── lab_report.html
+└── templates
+├── index.html
+├── login.html
+├── register.html
+├── admin_dashboard.html
+├── doctor_dashboard.html
+├── patient_dashboard.html
+├── receptionist_dashboard.html
+├── book_appointment.html
+├── view_appointment.html
+├── view_appointment_doctor.html
+├── add_diagnosis.html
+├── diagnosis_result.html
+├── billing.html
+└── lab_report.html
 
 --------------------------------------------------
 
