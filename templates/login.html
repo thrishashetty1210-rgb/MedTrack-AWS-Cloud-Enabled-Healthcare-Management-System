@@ -1,17 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Login</title>
+
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
-<div class="form-box">
+</head>
+
+<body>
+
+<div class="auth-container">
+
+<div class="auth-card">
 
 <h2>Login</h2>
 
 <form method="POST">
-
-<input name="email" placeholder="Email">
-
+<input type="email" name="email" placeholder="Email">
 <input type="password" name="password" placeholder="Password">
-
-<button type="submit">Login</button>
-
+<button class="btn">Login</button>
 </form>
-<a href="home.html">Home Page</a> 
+<br>
+
+<a href="/" class="btn">⬅ Back</a>
 </div>
+</div>
+
+</body>
+</html>

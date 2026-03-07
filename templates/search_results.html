@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Search Results</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Patient Search Results 🔍</h2>
+
+{% if results %}
+
+<table>
+<tr>
+<th>Name</th>
+<th>Email</th>
+<th>Role</th>
+</tr>
+
+{% for r in results %}
+
+<tr>
+<td>{{ r.name }}</td>
+<td>{{ r.email }}</td>
+<td>{{ r.role }}</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% else %}
+
+<p>No patient found</p>
+
+{% endif %}
+
+<br>
+
+<a href="/doctor_dashboard">Back to Dashboard</a>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Billing</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<h2>Billing</h2>
+
+<form>
+
+<label>Patient Name</label>
+<input type="text" name="patient">
+
+<label>Treatment</label>
+<input type="text" name="treatment">
+
+<label>Amount</label>
+<input type="number" name="amount">
+
+<button type="submit">Generate Bill</button>
+
+</form>
+
+<br>
+
+<a href="/receptionist_dashboard">Back</a>
+
+</body>
+</html>

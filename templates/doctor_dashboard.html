@@ -1,48 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <title>Doctor Dashboard</title>
+
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
 </head>
 
 <body>
 
-<h2>👨‍⚕️ Doctor Dashboard</h2>
+<div class="navbar">
 
-<table>
+<h2>Doctor Dashboard 👨‍⚕️</h2>
 
-<tr>
-<th>Patient ID</th>
-<th>Date</th>
-<th>Time</th>
-<th>Action</th>
-</tr>
+<div>
+<a href="/logout">Logout</a>
+</div>
+
+</div>
+
+<div class="container">
+
+<h3>Patient Appointments</h3>
 
 {% for a in appointments %}
 
-<tr>
+<div class="card">
 
-<td>{{ a.PatientID }}</td>
-<td>{{ a.Date }}</td>
-<td>{{ a.Time }}</td>
+<b>Patient:</b> {{ a.patient }} <br>
+<b>Date:</b> {{ a.date }}
 
-<td>
-<a href="/diagnosis" class="btn">Add Diagnosis</a>
-</td>
+<br><br>
 
-</tr>
-<td>
-<a href="/approve/{{ a._id }}" class="btn">Approve</a>
-<a href="/diagnosis/{{ a._id }}" class="btn">Add Diagnosis</a>
-</td>
+<a href="/treat_patient/{{ a._id }}" class="btn">
+Treat Patient
+</a>
+
+</div>
 
 {% endfor %}
 
-</table>
-
-<br>
-
-<a href="/logout" class="logout">Logout</a>
+</div>
 
 </body>
 </html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Doctor Appointments</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Doctor Appointments</h2>
+
+{% for a in appointments %}
+
+<div class="card">
+
+<b>Patient Name:</b> {{ a.patient }} <br>
+<b>Date:</b> {{ a.date }} <br><br>
+
+<a class="btn" href="/treat_patient/{{ a._id }}">Treat Patient</a>
+
+</div>
+
+{% endfor %}
+
+<br>
+
+<a href="/doctor_dashboard" class="btn">⬅ Back</a>
+
+</div>
+
+</body>
+</html>

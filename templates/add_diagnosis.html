@@ -1,21 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Add Diagnosis</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
 
-<div class="form-box">
+<body>
 
 <h2>Add Diagnosis</h2>
 
-<form method="POST">
+<form method="post">
 
-<input name="appointment" placeholder="Appointment ID">
+<label>Patient ID</label><br>
+<input type="text" name="patient_id" required>
 
-<input name="doctor" placeholder="Doctor ID">
+<br><br>
 
-<input name="patient" placeholder="Patient ID">
+<label>Doctor ID</label><br>
+<input type="text" name="doctor_id" required>
 
-<textarea name="report" placeholder="Diagnosis Report"></textarea>
+<br><br>
+
+<label>Diagnosis Report</label><br>
+<textarea name="report"></textarea>
+
+<br><br>
 
 <button type="submit">Submit</button>
 
 </form>
 
-</div>
+<br>
+
+<a href="/doctor_dashboard">Back</a>
+
+</body>
+</html>

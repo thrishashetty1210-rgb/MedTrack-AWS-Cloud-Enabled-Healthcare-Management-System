@@ -1,28 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Register</title>
+
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
-<div class="form-box">
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
 
 <h2>Register</h2>
 
 <form method="POST">
 
-<input name="name" placeholder="Name">
+<input type="text" name="name" placeholder="Name" required>
 
-<input name="email" placeholder="Email">
+<input type="email" name="email" placeholder="Email" required>
+
+<input type="password" name="password" placeholder="Password" required>
 
 <select name="role">
 
-<option value="doctor">Doctor</option>
 <option value="patient">Patient</option>
+<option value="doctor">Doctor</option>
 
 </select>
 
-<input name="phone" placeholder="Phone">
-
-<input type="password" name="password" placeholder="Password">
-
-<button type="submit">Register</button>
+<button class="btn">Register</button>
 
 </form>
+<br>
+
+<a href="/" class="btn">⬅ Back</a>
+</div>
 
 </div>
+
+</body>
+</html>

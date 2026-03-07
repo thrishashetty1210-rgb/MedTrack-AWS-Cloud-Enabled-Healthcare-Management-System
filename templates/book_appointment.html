@@ -1,21 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Book Appointment</title>
+
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
-<div class="form-box">
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
 
 <h2>Book Appointment</h2>
 
 <form method="POST">
 
-<input name="patient_id" placeholder="Patient ID">
+<label>Select Doctor</label>
 
-<input name="doctor" placeholder="Doctor ID">
+<select name="doctor" required>
 
-<input type="date" name="date">
+{% for d in doctors %}
 
-<input type="time" name="time">
+<option value="{{ d.name }}">{{ d.name }}</option>
 
-<button type="submit">Book</button>
+{% endfor %}
+
+</select>
+
+<label>Select Date</label>
+
+<input type="date" name="date" required>
+
+<br><br>
+
+<button class="btn">Book Appointment</button>
 
 </form>
 
+<br>
+
+<a href="/patient_dashboard" class="btn">⬅ Back</a>
+
 </div>
+
+</div>
+
+</body>
+</html>

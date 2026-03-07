@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Treat Patient</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<h2>🩺 Treat Patient</h2>
+
+<p><b>Patient:</b> {{ a.patient }}</p>
+<p><b>Date:</b> {{ a.date }}</p>
+
+<form method="POST">
+
+<textarea name="report" placeholder="Write treatment report" required></textarea>
+
+<br><br>
+
+<input type="number" name="bill" placeholder="Enter bill amount" required>
+
+<br><br>
+
+<button class="btn">Save Treatment</button>
+
+</form>
+
+<br>
+
+<!-- Back Button -->
+<a href="/doctor_dashboard" class="btn">⬅ Back</a>
+
+</div>
+
+</div>
+
+</body>
+</html>

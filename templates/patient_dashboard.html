@@ -1,29 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Patient Dashboard</title>
+
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
-<h2>🧑 Patient Dashboard</h2>
+</head>
 
-<p><b>Your Patient ID:</b> {{ patient.patient_id }}</p>
+<body>
 
-<a href="/book" class="btn">Book Appointment</a>
+<!-- Navbar -->
+<div class="navbar">
 
-<h3>📄 Diagnosis Reports</h3>
+<h2>Patient Dashboard 👤</h2>
 
-<table>
+<div>
+<a href="/">Home</a>
+<a href="/logout">Logout</a>
+</div>
 
-<tr>
-<th>Doctor ID</th>
-<th>Report</th>
-</tr>
+</div>
 
-{% for r in reports %}
+<!-- Main Container -->
+<div class="container">
 
-<tr>
-<td>{{ r.DoctorID }}</td>
-<td>{{ r.Report }}</td>
-</tr>
+<a class="btn" href="/book_appointment">📅 Book Appointment</a>
+
+<h3>Your Appointments</h3>
+
+{% for a in appointments %}
+
+<div class="card">
+
+<b>Doctor:</b> {{ a.doctor }} <br>
+<b>Date:</b> {{ a.date }} <br>
+
+<b>Doctor Report:</b>
+{% if a.report %}
+{{ a.report }}
+{% else %}
+Not Available
+{% endif %}
+
+<br><br>
+
+<b>Bill:</b>
+{% if a.bill %}
+₹{{ a.bill }}
+{% else %}
+Not Generated
+{% endif %}
+
+<br><br>
+
+{% if a.payment_status == "Pending" %}
+<a href="/pay_bill/{{ a._id }}" class="btn">💳 Pay Bill</a>
+{% elif a.payment_status == "Paid" %}
+<p>✅ Payment Done</p>
+{% endif %}
+
+<br>
+
+<a href="/cancel_appointment/{{ a._id }}" class="btn-danger">❌ Cancel Appointment</a>
+
+</div>
 
 {% endfor %}
 
-</table>
+</div>
 
-<a href="/logout" class="logout">Logout</a>
+</body>
+</html>

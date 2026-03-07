@@ -1,59 +1,55 @@
 from flask import Flask, render_template, request, redirect, session
 from pymongo import MongoClient
 from bson.objectid import ObjectId
-from datetime import datetime
+import config
 
 app = Flask(__name__)
 app.secret_key = "medtrack_secret"
 
-# MongoDB connection
-client = MongoClient("mongodb://localhost:27017/")
+# MongoDB Connection
+client = MongoClient(config.MONGO_URI)
 db = client["medtrack"]
 
 users = db["users"]
 appointments = db["appointments"]
-diagnosis = db["diagnosis"]
 
-# ---------------- HOME ----------------
 
+# -----------------------------
+# HOME PAGE
+# -----------------------------
 @app.route("/")
-def home():
-    return render_template("home.html")
+def index():
+    return render_template("index.html")
 
 
-# ---------------- REGISTER ----------------
-
-
-
+# -----------------------------
+# REGISTER
+# -----------------------------
 @app.route("/register", methods=["GET","POST"])
 def register():
 
     if request.method == "POST":
 
+        name = request.form["name"]
+        email = request.form["email"]
+        password = request.form["password"]
         role = request.form["role"]
 
-        patient_id = None
-        if role == "patient":
-            patient_id = "P" + str(random.randint(1000,9999))
-
-        data = {
-            "name": request.form["name"],
-            "email": request.form["email"],
-            "role": role,
-            "phone": request.form["phone"],
-            "password": request.form["password"],
-            "patient_id": patient_id
-        }
-
-        users.insert_one(data)
+        users.insert_one({
+            "name": name,
+            "email": email,
+            "password": password,
+            "role": role
+        })
 
         return redirect("/login")
 
     return render_template("register.html")
 
 
-# ---------------- LOGIN ----------------
-
+# -----------------------------
+# LOGIN
+# -----------------------------
 @app.route("/login", methods=["GET","POST"])
 def login():
 
@@ -62,144 +58,217 @@ def login():
         email = request.form["email"]
         password = request.form["password"]
 
-        # Admin login
-        if email == "admin@medtrack.com" and password == "admin123":
-            session["role"] = "admin"
-            session["email"] = email
-            return redirect("/admin")
-
-        user = users.find_one({"email":email,"password":password})
+        user = users.find_one({
+            "email": email,
+            "password": password
+        })
 
         if user:
 
+            session["user"] = user["name"]
             session["role"] = user["role"]
-            session["email"] = user["email"]
 
             if user["role"] == "doctor":
-                return redirect("/doctor")
+                return redirect("/doctor_dashboard")
 
             elif user["role"] == "patient":
-                return redirect("/patient")
+                return redirect("/patient_dashboard")
 
     return render_template("login.html")
 
 
-# ---------------- ADMIN DASHBOARD ----------------
+# -----------------------------
+# DOCTOR DASHBOARD
+# -----------------------------
+@app.route("/doctor_dashboard")
+def doctor_dashboard():
 
-@app.route("/admin")
-def admin():
+    if "user" not in session:
+        return redirect("/login")
 
-    all_users = list(users.find())
-    all_appointments = list(appointments.find())
-
-    return render_template(
-        "admin_dashboard.html",
-        users=all_users,
-        appointments=all_appointments
-    )
-
-
-# Delete user
-
-@app.route("/delete_user/<id>")
-def delete_user(id):
-
-    users.delete_one({"_id":ObjectId(id)})
-
-    return redirect("/admin")
-
-
-# ---------------- DOCTOR DASHBOARD ----------------
-
-@app.route("/doctor")
-def doctor():
-
-    all_appointments = list(appointments.find())
+    # Get only appointments for the logged-in doctor
+    appointments = list(db.appointments.find({
+        "doctor": session["user"]
+    }))
 
     return render_template(
         "doctor_dashboard.html",
-        appointments=all_appointments
+        appointments=appointments
     )
 
+# -----------------------------
+# PATIENT DASHBOARD
+# -----------------------------
+@app.route("/patient_dashboard")
+def patient_dashboard():
 
-# ---------------- PATIENT DASHBOARD ----------------
+    if "user" not in session:
+        return redirect("/login")
 
-@app.route("/patient")
-def patient():
-
-    user = users.find_one({"email":session["email"]})
-
-    reports = list(diagnosis.find({"patient_email":session["email"]}))
+    data = list(appointments.find({
+        "patient": session["user"]
+    }))
 
     return render_template(
         "patient_dashboard.html",
-        reports=reports,
-        patient=user
+        appointments=data
     )
 
 
-# ---------------- BOOK APPOINTMENT ----------------
+# -----------------------------
+# BOOK APPOINTMENT
+# -----------------------------
+@app.route("/book_appointment", methods=["GET","POST"])
+def book_appointment():
 
-@app.route("/book", methods=["GET","POST"])
-def book():
+    if "user" not in session:
+        return redirect("/login")
+
+    # get doctors list
+    doctors = list(users.find({"role": "doctor"}))
 
     if request.method == "POST":
 
-        data = {
+        patient = session["user"]
+        doctor = request.form["doctor"]
+        date = request.form["date"]
 
-            "PatientID": request.form["patient_id"],
-            "patient_email": session["email"],
-            "DoctorID": request.form["doctor"],
-            "Date": request.form["date"],
-            "Time": request.form["time"],
-            "Status": "Pending"
-        }
+        appointments.insert_one({
+            "patient": patient,
+            "doctor": doctor,
+            "date": date
+        })
 
-        appointments.insert_one(data)
+        return redirect("/view_appointment_patient")
 
-        return redirect("/patient")
-
-    return render_template("book_appointment.html")
+    return render_template("book_appointment.html", doctors=doctors)
 
 
-# ---------------- ADD DIAGNOSIS ----------------
-@app.route("/diagnosis/<id>", methods=["GET","POST"])
-def add_diagnosis(id):
+# -----------------------------
+# VIEW PATIENT APPOINTMENTS
+# -----------------------------
+@app.route("/view_appointment_patient")
+def view_appointment_patient():
+
+    if "user" not in session:
+        return redirect("/login")
+
+    data = appointments.find({"patient": session["user"]})
+
+    return render_template(
+        "view_appointment_patient.html",
+        appointments=data
+    )
+
+
+# -----------------------------
+# VIEW DOCTOR APPOINTMENTS
+# -----------------------------
+@app.route("/view_appointment_doctor")
+def view_appointment_doctor():
+
+    if "user" not in session:
+        return redirect("/login")
+
+    data = list(appointments.find({
+        "doctor": session["user"]
+    }))
+
+    return render_template(
+        "view_appointment_doctor.html",
+        appointments=data
+    )
+
+
+#------Search results------
+# -------- SEARCH PATIENT --------
+@app.route("/search", methods=["POST"])
+def search():
+
+    keyword = request.form["keyword"]
+
+    results = list(users.find({
+        "name": {"$regex": keyword, "$options": "i"},
+        "role": "patient"
+    }))
+
+    return render_template(
+        "search_results.html",
+        results=results
+    )
+
+# Doctor add report
+@app.route("/add_report/<id>", methods=["GET","POST"])
+def add_report(id):
+
+    if request.method == "POST":
+        report = request.form["report"]
+
+        appointments.update_one(
+            {"_id": ObjectId(id)},
+            {"$set": {"report": report}}
+        )
+
+        return redirect("/view_appointment_doctor")
 
     appointment = appointments.find_one({"_id": ObjectId(id)})
 
+    return render_template("add_report.html", a=appointment)
+
+# -----------------------------
+# CANCEL APPOINTMENT
+# -----------------------------
+@app.route("/cancel_appointment/<id>")
+def cancel_appointment(id):
+
+    appointments.delete_one({"_id": ObjectId(id)})
+
+    return redirect("/patient_dashboard")
+#----treat patient----
+@app.route("/treat_patient/<id>", methods=["GET","POST"])
+def treat_patient(id):
+
     if request.method == "POST":
 
-        data = {
-            "AppointmentID": id,
-            "DoctorID": appointment["DoctorID"],
-            "PatientID": appointment["PatientID"],
-            "Report": request.form["report"]
-        }
+        report = request.form["report"]
+        bill = request.form["bill"]
 
-        diagnosis.insert_one(data)
-
-        # Update appointment status
         appointments.update_one(
             {"_id": ObjectId(id)},
-            {"$set": {"Status": "Completed"}}
+            {"$set": {
+                "report": report,
+                "bill": bill,
+                "payment_status": "Pending"
+            }}
         )
 
-        return redirect("/doctor")
+        return redirect("/doctor_dashboard")
 
-    return render_template("add_diagnosis.html", appointment=appointment)
+    data = appointments.find_one({"_id": ObjectId(id)})
 
-# ---------------- LOGOUT ----------------
+    return render_template("treat_patient.html", a=data)
+#---payment-----
+@app.route("/pay_bill/<id>")
+def pay_bill(id):
 
+    appointments.update_one(
+        {"_id": ObjectId(id)},
+        {"$set": {"payment_status": "Paid"}}
+    )
+
+    return redirect("/patient_dashboard")
+# -----------------------------
+# LOGOUT
+# -----------------------------
 @app.route("/logout")
 def logout():
 
     session.clear()
-
     return redirect("/")
 
 
-# ---------------- RUN SERVER ----------------
-
+# -----------------------------
+# RUN APP
+# -----------------------------
 if __name__ == "__main__":
     app.run(debug=True)
