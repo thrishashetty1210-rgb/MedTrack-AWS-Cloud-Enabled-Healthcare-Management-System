@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Lab Report</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<h2>Lab Report</h2>
+
+<form method="post">
+
+<label>Patient Name</label><br>
+<input type="text" name="patient" required>
+
+<br><br>
+
+<label>Test Name</label><br>
+<input type="text" name="test" required>
+
+<br><br>
+
+<label>Result</label><br>
+<textarea name="result"></textarea>
+
+<br><br>
+
+<button type="submit">Submit</button>
+
+</form>
+
+<br>
+
+<a href="/admin_dashboard">Back</a>
+
+</body>
+</html>
